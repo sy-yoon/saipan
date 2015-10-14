@@ -1,0 +1,125 @@
+<div class="content-wrapper" ng-controller="db_area" style="min-height: 800px;">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			{{MENU.DEFINE.LB001}} <small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">{{MENU.DEFINE.LB001}}</li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+
+		<!-- Default box -->
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<i class="fa fa-dot-circle-o"/>
+				<h3 class="box-title">{{LB.AREA.TITLE}}</h3>
+				<div class="box-tools pull-right">
+					<button class="btn btn-sm bg-orange" title={{LB.COMMON.EDIT}} ng-click="flag = !flag;" ng-model="flag">
+						<i class="fa fa-edit"></i>
+					</button>
+					<button class="btn btn-sm bg-green"  title="{{LB.COMMON.ADD}}" ng-click="fnAdd()">
+						<i class="fa fa-plus-square"></i>
+					</button>
+					
+				</div>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body">
+				<ul class="products-list product-list-in-box">
+					<li class="item" ng-repeat="item in dbmsList">
+						<div class="product-img"  >
+							<img class="{{colors[$index%colors.length]}}"/>
+							
+						</div>
+						<div class="product-info">
+							<a href="#/dbms/schema?title={{item.DBMS_NM}}&dbms_id={{item.DBMS_ID}}" class="product-title">{{item.DBMS_NM}} 
+							</a> 
+							<div class="btn-group pull-right" ng-show="flag">							
+                        		<button class="btn btn-xs btn-default" title={{LB.COMMON.EDIT}} ng-click="fnEdit(item)"><i class="fa fa-edit"></i></button>
+                        		<button class="btn btn-xs btn-danger" title={{LB.COMMON.REMOVE}} ng-click="fnRemove(item)" data-toggle="confirmation-singleton"><i class="fa fa-trash"></i></button>
+                        		<button class="btn btn-xs btn-warning" title={{LB.COMMON.REMOVE}} ng-click="fnRemoveSql(item)">{{LB.AREA.LB015}}</i></button>
+                      		</div>
+							<span class="product-description pull-right" ng-if="item.DBMS_TYP=='0001'"><span class="badge bg-green" ng-if="item.DBMS_TYP == '0001'"> Oracle </span></span>
+							<span class="product-description"> {{item.IP}} : {{item.PORT}} </span>
+							<span class="product-description"> {{item.ACCT}} / {{item.PWD}}</span>
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer text-center">
+			</div>
+			<!-- /.box-footer -->
+		</div>
+		<!-- /.box -->
+	</section>
+	<!-- /.content -->
+	
+	<div id="dbmsDlg" class="modal fade">
+		<form ng-submit="submit();">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<div class="box box-primary">
+							<div class="box-body">
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB004}}</label><span class="text-orange">*</span> 
+									<input type="text" class="form-control" ng-model="dbmsNm" required>
+								</div>
+					
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB012}}</label><span class="text-orange">*</span>  
+									<select id="dbType"	class="form-control" ng-model="dbmsType">
+										<option value="0001">Oracle</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB005}}</label><span class="text-orange">*</span>  
+									<input type="text" class="form-control" ng-model="ip" required>
+								</div>
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB010}}</label><span class="text-orange">*</span>  
+									<input type="number" class="form-control" ng-model="port" required>
+								</div>
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB013}}</label><span class="text-orange">*</span>  
+									<input type="text" class="form-control" ng-model="acct" required>
+								</div>
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB014}}</label><span class="text-orange">*</span>  
+									<input type="text" class="form-control" ng-model="pwd" required>
+								</div>
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB007}}</label><span class="text-orange">*</span>  
+									<input type="text" class="form-control" ng-model="schema" style="text-transform: uppercase;" required>
+								</div>
+								<div class="form-group">
+									<lable class="text-light-blue">{{LB.TRGT.LB015}}</label><span class="text-orange">*</span>  
+									<input type="text" class="form-control" ng-model="sid" required>
+								</div>
+							</div>
+							<div class="box-footer">
+								<div class="btn-group pull-right">
+									<button type="submit" class="btn btn-primary" id="btnSaveRule">{{LB.COMMON.SAVE}}</button>
+									</button>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+</div>
+<!-- /.content-wrapper -->

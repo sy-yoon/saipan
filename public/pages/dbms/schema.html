@@ -1,0 +1,62 @@
+<div class="content-wrapper" ng-controller="schema" style="min-height: 800px;">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			{{MENU.DEFINE.LB001}} <small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">{{MENU.DEFINE.LB001}}</li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+
+		<!-- Default box -->
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<i class="fa fa-dot-circle-o"/>
+				<h3 class="box-title">{{LB.AREA.TITLE}}</h3>
+				<div class="box-tools pull-right">
+					<button class="btn btn-sm bg-orange" title={{LB.COMMON.EDIT}} ng-click="flag = !flag;" ng-model="flag">
+						<i class="fa fa-edit"></i>
+					</button>
+					<button class="btn btn-sm bg-green"  title="{{LB.COMMON.ADD}}" ng-click="fnAdd()">
+						<i class="fa fa-plus-square"></i>
+					</button>
+					
+				</div>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body">
+				<ul class="products-list product-list-in-box">
+					<li class="item" ng-repeat="item in schemaList">
+						<div class="product-img"  >
+							<img class="{{colors[$index%colors.length]}}"/>
+						</div>
+						<div class="product-info">
+							<a href="#/dbms/schema?title={{item.SCHEMA_NM}}&dbmsId={{item.DBMS_ID}}" class="product-title">{{item.SCHEMA_NM}} 
+							</a> 
+							<div class="btn-group pull-right" ng-show="flag">							
+                        		<button class="btn btn-xs btn-default" title={{LB.COMMON.EDIT}} ng-click="fnEdit(item)"><i class="fa fa-edit"></i></button>
+                        		<button class="btn btn-xs btn-danger" title={{LB.COMMON.REMOVE}} ng-click="fnRemove(item)" data-toggle="confirmation-singleton"><i class="fa fa-trash"></i></button>
+                        		<button class="btn btn-xs btn-warning" title={{LB.COMMON.REMOVE}} ng-click="fnRemoveSql(item)">{{LB.AREA.LB015}}</i></button>
+                      		</div>
+							<span class="product-description"> {{item.IP}} : {{item.PORT}} </span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer text-center">
+			</div>
+			<!-- /.box-footer -->
+		</div>
+		<!-- /.box -->
+	</section>
+	<!-- /.content -->
+	
+	
+</div>
+<!-- /.content-wrapper -->

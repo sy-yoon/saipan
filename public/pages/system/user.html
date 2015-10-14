@@ -1,0 +1,116 @@
+<div class="content-wrapper" ng-controller="system.user" style="min-height: 800px;">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			{{MENU.SYSTEM.LB003}} <small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">{{MENU.SYSTEM.LB003}}</li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+
+		<!-- Default box -->
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">{{LB.USER.TITLE}}</h3>
+				<div class="box-tools pull-right">
+					<button class="btn btn-sm bg-orange" title={{LB.COMMON.EDIT}} ng-click="flag = !flag;" ng-model="flag">
+						<i class="fa fa-edit"></i>
+					</button>
+					<button class="btn btn-sm bg-green"  title="{{LB.COMMON.ADD}}" ng-click="fnAdd()">
+						<i class="fa fa-plus-square"></i>
+					</button>
+					
+				</div>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body">
+				<ul class="products-list product-list-in-box">
+					<li class="item" ng-repeat="item in itemList">
+						<div class="product-img">
+							<img src="images/user.png" class="img-circle" alt="User Image" />
+						</div>
+						<div class="product-info">
+							<span class="product-title">{{item.USER_NM}}</span>
+							<div class="btn-group pull-right" ng-show="flag">
+                        		<button class="btn btn-xs btn-default" title={{LB.COMMON.EDIT}} ng-click="fnEdit(item)"><i class="fa fa-edit"></i></button>
+                        		<button class="btn btn-xs btn-danger" title={{LB.COMMON.REMOVE}} ng-click="fnRemove(item)"><i class="fa fa-trash"></i></button>
+                      		</div>
+							
+							<span class="product-description"> {{item.EMAIL}} </span> 
+							<span class="product-description pull-right"> {{item.LOGIN_ID}} </span> 
+							
+						</div>
+					</li>
+				</ul>
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer text-center">
+			</div>
+			<!-- /.box-footer -->
+		</div>
+		<!-- /.box -->
+	</section>
+	<!-- /.content -->
+	
+	<div id="userDlg" class="modal fade">
+		<form ng-submit="submit();">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<div class="box box-primary">
+							<div class="box-body">
+						
+								<div class="form-group">
+									<lable class="text-orange">{{LB.USER.LB001}}</label> 
+									<input
+										type="text" ng-model="userNm" class="form-control" 
+										placeholder={{LB.USER.LB001}} required />
+								</div>
+	
+								<div class="form-group">
+									<lable class="text-orange">{{LB.USER.LB002}}</label> 
+									<input
+										type="text" ng-model="loginId"
+										class="form-control" placeholder={{LB.USER.LB002}} required />
+								</div>
+								
+								<div class="form-group">
+									<lable class="text-orange">{{LB.USER.LB003}}</label> 
+									<input
+										type="password" ng-model="password"
+										class="form-control" placeholder={{LB.USER.LB003}} required />
+								</div>
+								
+								<div class="form-group">
+									<lable class="text-orange">{{LB.USER.LB004}}</label> 
+									<input
+										type="text" ng-model="email"
+										class="form-control" placeholder={{LB.USER.LB004}} required />
+								</div>
+
+							</div>
+							<!-- /.box-body -->
+							<div class="box-footer">
+								<div class="btn-group pull-right">
+									<button type="submit"
+										class="btn btn-primary">{{LB.COMMON.SAVE}}</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.content-wrapper -->

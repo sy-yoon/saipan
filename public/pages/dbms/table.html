@@ -1,0 +1,221 @@
+<div class="content-wrapper" ng-controller="dbms.table"
+	style="min-height: 800px;">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		
+		<h1>
+		<button ng-show="flag" class="btn  btn-warning" ng-click="flag=false;">
+			<i class="fa fa-arrow-left"/>
+		</button>
+			{{subTitle}} 
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#area">{{MENU.DEFINE.LB001}}</a></li>
+            <li><a href="#area/trgt/{{aqBizId}}">{{LB.COMMON.SYSTEM}}</a></li>
+            <li class="active">{{LB.TRGT_SQL.TITLE}}</li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+		<!-- Default box -->
+		<div class="nav-tabs-custom">
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-target="#tableInfo" data-toggle="tab">{{LB.TABLE_INFO.LB001}}</a></li>
+				<li><a data-target="#columns" data-toggle="tab">{{LB.TABLE_INFO.LB005}}</a></li>
+				<li><a data-target="#index" data-toggle="tab">{{LB.TABLE_INFO.LB004}}</a></li>
+				<li><a data-target="#const" data-toggle="tab">{{LB.TABLE_INFO.LB003}}</a></li>
+				<li><a data-target="#accessPath" data-toggle="tab">{{LB.TABLE_INFO.LB028}}</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="tableInfo">
+					<div class="box box-info">
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="form-horizontal">
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB017}} </label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.PARTITIONED}}</label></div>
+								</div>	
+		
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB018}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.TEMPORARY}}</label></div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB019}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.BLOCKS}}</label></div>
+								</div>
+		
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB020}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.BLOCK_BYTES}}</label></div>
+								</div>
+		
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB021}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.EMPTY_BLOCKS}}</label></div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB022}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.NUM_ROWS}}</label></div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB023}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.AVG_SPACE}}</label></div>
+								</div>
+		
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB024}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.CHAIN_CNT}}</label></div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB025}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.AVG_ROW_LEN}}</label></div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB026}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.AVG_SPACE_FREELIST_BLOCKS}}</label></div>
+								</div>
+		
+								<div class="form-group">
+									<label class="col-sm-3 control-label">{{LB.TABLE_INFO.LB027}}</label>
+									<div class="col-sm-9">  <label class="form-control">{{tableDetail.SAMPLE_SIZE}}</label></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /.box -->
+				</div>
+				<div class="tab-pane" id="columns" style="min-height:300px;">
+					<div class="box box-info">
+						
+						<div class="box-body table-responsive no-padding">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>{{LB.TABLE_INFO.LB010}}</th>
+										<th>{{LB.TABLE_INFO.LB006}}</th>
+										<th>{{LB.TABLE_INFO.LB007}}</th>
+										<th>{{LB.TABLE_INFO.LB008}}</th>
+										<th>{{LB.TABLE_INFO.LB009}}</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in tableColList">
+										<td>{{item.COLUMN_NAME}}</td>
+										<td>{{item.DATA_TYPE}}</td>
+										<td>{{item.DATA_LENGTH}}</td>
+										<td>{{item.NULLABLE}}</td>
+										<td><span class="badge bg-green" ng-if="item.PK != undefined">
+												Y </span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="box-footer text-center"></div>
+					</div>
+				</div>
+				<div class="tab-pane" id="index" style="min-height:300px;">
+					<div class="box box-info">
+						<div class="box-body table-responsive no-padding">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>{{LB.TABLE_INFO.LB004}}</th>
+										<th>{{LB.TABLE_INFO.LB014}}</th>
+										<th>{{LB.TABLE_INFO.LB015}}</th>
+										<th>{{LB.TABLE_INFO.LB016}}</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									
+									<tr ng-repeat-start="item in tableIdxList" ng-if="item.COLUMN_POSITION == 1">
+										<td colspan="4" class="text-green bg-gray"><span >{{item.INDEX_NAME}}</span></td>
+									</tr>
+									<tr ng-repeat-end>
+										<td></td>
+										<td>{{item.COLUMN_NAME}}</td>
+										<td>{{item.COLUMN_POSITION}}</td>
+										<td>{{item.DESCEND}}</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="const" style="min-height:300px;">
+					<div class="box box-info">
+						<div class="box-body table-responsive no-padding">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>{{LB.TABLE_INFO.LB003}}</th>
+										<th>{{LB.TABLE_INFO.LB011}}</th>
+										<th>{{LB.TABLE_INFO.LB012}}</th>
+										<th>{{LB.TABLE_INFO.LB010}}</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									
+									<tr ng-repeat-start="item in tableConsList" ng-if="item.CONS_COL_PSTN == 1">
+										<td colspan="4" class="text-green bg-gray"><span >{{item.CONS_NM}}</span></td>
+									</tr>
+									<tr ng-repeat-end>
+										<td></td>
+										<td>{{item.CONS_TYPE}}</td>
+										<td>{{item.SEARCH_CONDITION}}</td>
+										<td>{{item.CONS_COL_NM}}</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				
+				<div class="tab-pane" id="accessPath" style="min-height:300px;">
+					<div class="box box-info">
+						<div class="box-body table-responsive no-padding">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>{{LB.COMMON.TABLE}}</th>
+										<th>{{LB.COMMON.COLUMN}}</th>
+										<th>{{LB.TABLE_INFO.LB029}}</th>
+										<th>{{LB.TABLE_INFO.LB030}}</th>
+										<th>{{LB.TABLE_INFO.LB031}}</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in apList">
+										<td>{{item.TBL_NM}}</td>
+										<td>{{item.COL_NM}}</td>
+										<td>{{item.OP}}</td>
+										<td>{{item.CNT}}</td>
+										<td>{{item.CONST_CNT}}</td>
+									</tr>		
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+		</div>
+		<!-- /.box -->
+	</section>
+	<!-- /.content -->
+	
+</div>
+<!-- /.content-wrapper -->

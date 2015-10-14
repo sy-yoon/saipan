@@ -1,0 +1,93 @@
+<div class="content-wrapper" ng-controller="dbms.tables"
+	style="min-height: 800px;">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		
+		<h1>
+		<button ng-show="flag" class="btn  btn-warning" ng-click="flag=false;">
+			<i class="fa fa-arrow-left"/>
+		</button>
+			{{subTitle}} 
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#area">{{MENU.DEFINE.LB001}}</a></li>
+            <li><a href="#area/trgt/{{aqBizId}}">{{LB.COMMON.SYSTEM}}</a></li>
+            <li class="active">{{LB.TRGT_SQL.TITLE}}</li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+		<!-- Default box -->
+		<div class="box" ng-show="!flag">
+			<div class="box-header">
+				<i class="fa fa-dot-circle-o"/>
+				<h3 class="box-title">{{LB.TRGT_SQL.TITLE}}</h3>
+				<div class="box-tools">
+					<div class="input-group pull-right">
+						<input type="text"  ng-model="tblNm"
+							class="form-control input-sm pull-right" style="width: 150px;"
+							placeholder="{{LB.COMMON.TABLE}}" />
+						<div class="input-group-btn">
+							<button class="btn btn-sm btn-default" ng-click="fnLoadData();">
+								<i class="fa fa-search"></i>
+							</button>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body table-responsive no-padding">
+				<table class="table table-hover" id="sqlTbl">
+					<tr>
+						<th>TABLE_NAME</th>
+						<th>TABLESPACE_NAME</th>
+						<th>NUM_ROWS</th>
+						<th>BLOCKS</th>
+						<th>EMPTY_BLOCKS</th>
+						<th>AVG_SPACE</th>
+						<th>CHAIN_CNT</th>
+						<th>AVG_ROW_LEN</th>
+						<th>AVG_SPACE_FREELIST_BLOCKS</th>
+						<th>SAMPLE_SIZE</th>
+						<th>PARTITIONED</th>
+						<th>TEMPORARY</th>
+					</tr>
+					<tr ng-repeat="item in tableList">
+						<td><a href="#dbms/table?dbmsId={{item.DBMS_ID}}&schemaId={{item.SCHEMA_ID}}&tableNm={{item.TABLE_NAME}}">{{item.TABLE_NAME}}</a></td>
+						<td>{{item.TABLESPACE_NAME}}</td>
+						<td>{{item.NUM_ROWS}}</td>
+						<td>{{item.BLOCKS}}</td>
+						<td>{{item.EMPTY_BLOCKS}}</td>
+						<td>{{item.AVG_SPACE}}</td>
+						<td>{{item.CHAIN_CNT}}</td>
+						<td>{{item.AVG_ROW_LEN}}</td>
+						<td>{{item.AVG_SPACE_FREELIST_BLOCKS}}</td>
+						<td>{{item.SAMPLE_SIZE}}</td>
+						<td>{{item.PARTITIONED}}</td>
+						<td>{{item.TEMPORARY}}</td>
+					</tr>
+				</table>
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer text-center">
+				<label>Total Items : {{totalCount}}</label>
+				<div class="box-tools pull-right">
+					<button class="btn btn-default btn-sm" ng-click="goPrev();">
+						<i class="fa fa-chevron-left"></i>
+					</button>
+					{{pageNum}}/{{totalPage}}
+					<button class="btn btn-default btn-sm" ng-click="goNext();">
+						<i class="fa fa-chevron-right"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.box -->
+	</section>
+	<!-- /.content -->
+	
+</div>
+<!-- /.content-wrapper -->
