@@ -1,4 +1,4 @@
-app.controller('dbms.tables', function ($scope, $routeParams, $http) {
+app.registerCtrl('dbms.tables', function ($scope, $routeParams, $http) {
         $scope.subTitle = $routeParams.schemaId;
         $scope.aqBizId = $routeParams.aqBizId;
         $scope.schemaId = $routeParams.schemaId;
@@ -7,7 +7,7 @@ app.controller('dbms.tables', function ($scope, $routeParams, $http) {
                 method: 'find-range',
                 pageSize: $scope.app_config.table_entries,
                 pageNum: $scope.pageNum,
-                condition: {
+                selector: {
                         SCHEMA_ID: $scope.schemaId
                 }
         };

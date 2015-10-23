@@ -1,5 +1,5 @@
-<script src="pages/dbms/tables.js"/>
-<div class="content-wrapper" ng-controller="dbms.tables"
+<script src="pages/dbms/procedures.js"/>
+<div class="content-wrapper" ng-controller="dbms.procedures"
 	style="min-height: 800px;">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
@@ -41,46 +41,30 @@
 			</div>
 			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover" id="sqlTbl">
-					<tr>
-						<th>TABLE_NAME</th>
-						<th>TABLESPACE_NAME</th>
-						<th>NUM_ROWS</th>
-						<th>BLOCKS</th>
-						<th>EMPTY_BLOCKS</th>
-						<th>AVG_SPACE</th>
-						<th>CHAIN_CNT</th>
-						<th>AVG_ROW_LEN</th>
-						<th>AVG_SPACE_FREELIST_BLOCKS</th>
-						<th>SAMPLE_SIZE</th>
-						<th>PARTITIONED</th>
-						<th>TEMPORARY</th>
-					</tr>
-					<tr ng-repeat="item in tableList">
-						<td><a href="#dbms/table?dbmsId={{item.DBMS_ID}}&schemaId={{item.SCHEMA_ID}}&tableNm={{item.TABLE_NAME}}">{{item.TABLE_NAME}}</a></td>
-						<td>{{item.TABLESPACE_NAME}}</td>
-						<td>{{item.NUM_ROWS}}</td>
-						<td>{{item.BLOCKS}}</td>
-						<td>{{item.EMPTY_BLOCKS}}</td>
-						<td>{{item.AVG_SPACE}}</td>
-						<td>{{item.CHAIN_CNT}}</td>
-						<td>{{item.AVG_ROW_LEN}}</td>
-						<td>{{item.AVG_SPACE_FREELIST_BLOCKS}}</td>
-						<td>{{item.SAMPLE_SIZE}}</td>
-						<td>{{item.PARTITIONED}}</td>
-						<td>{{item.TEMPORARY}}</td>
-					</tr>
+				<table class="table table-hover" ng-model="procTbl">
+					<thead>
+						<th ng-repeat="item in pageMeta.OBJECTS.procTbl.HEADER">{{item.HEADER_NAME}}</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="item in procedureList">
+							<!--<td><a href="#dbms/table?dbmsId={{item.DBMS_ID}}&schemaId={{item.SCHEMA_ID}}&indexNm={{item.MBR_OBJ_NM}}">{{item.MBR_OBJ_NM}}</a></td>-->
+							<td ng-repeat="item2 in pageMeta.OBJECTS.procTbl.HEADER">
+								<a href="#dbms/procedure?dbmsId={{item.DBMS_ID}}&schemaId={{item.SCHEMA_ID}}&procedureNm={{item.MBR_OBJ_NM}}" ng-if="item2.HREF">{{item[item2.FIELD]}}</a>
+								<span ng-if="item2.HREF == undefined">{{item[item2.FIELD]}}</span>
+							</td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			<!-- /.box-body -->
 			<div class="box-footer text-center">
-				<label>Total Items : {{totalCount}}</label>
+				<label>Total Items : {{procTbl.totalCount}}</label>
 				<div class="box-tools pull-right">
-					<button class="btn btn-default btn-sm" ng-click="goPrev();">
+					<button class="btn btn-default btn-sm" ng-click="goPrev(procTbl);">
 						<i class="fa fa-chevron-left"></i>
 					</button>
-					{{pageNum}}/{{totalPage}}
-					<button class="btn btn-default btn-sm" ng-click="goNext();">
+					{{procTbl.pageNum}}/{{procTbl.totalPage}}
+					<button class="btn btn-default btn-sm" ng-click="goNext(procTbl);">
 						<i class="fa fa-chevron-right"></i>
 					</button>
 				</div>
@@ -91,7 +75,4 @@
 	<!-- /.content -->
 	
 </div>
-
-
-	
 <!-- /.content-wrapper -->

@@ -1,5 +1,5 @@
-<script src="pages/dbms/db_area.js"/>
-<div class="content-wrapper" ng-controller="db_area" style="min-height: 800px;">
+<script src="pages/meta/pagemgr.js"/>
+<div class="content-wrapper" ng-controller="meta.pagemgr" style="min-height: 800px;">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
@@ -32,13 +32,13 @@
 			<!-- /.box-header -->
 			<div class="box-body">
 				<ul class="products-list product-list-in-box">
-					<li class="item" ng-repeat="item in dbmsList">
+					<li class="item" ng-repeat="item in pageList">
 						<div class="product-img"  >
 							<img class="{{colors[$index%colors.length]}}"/>
 							
 						</div>
 						<div class="product-info">
-							<a href="#/dbms/schema?title={{item.DBMS_NM}}&dbms_id={{item.DBMS_ID}}" class="product-title">{{item.DBMS_NM}} 
+							<a href="#/dbms/schema?title={{item.DBMS_NM}}&dbms_id={{item.DBMS_ID}}" class="product-title">{{item.pageId}} 
 							</a> 
 							<div class="btn-group pull-right" ng-show="flag">							
                         		<button class="btn btn-xs btn-default" title={{LB.COMMON.EDIT}} ng-click="fnEdit(item)"><i class="fa fa-edit"></i></button>
@@ -46,9 +46,8 @@
                         		<button class="btn btn-xs btn-warning" title={{LB.COMMON.REMOVE}} ng-click="fnRemoveSql(item)">{{LB.AREA.LB015}}</i></button>
                       		</div>
 							<span class="product-description pull-right" ng-if="item.DBMS_TYP=='0001'"><span class="badge bg-green" ng-if="item.DBMS_TYP == '0001'"> Oracle </span></span>
-							<span class="product-description"> {{item.IP}} : {{item.PORT}} </span>
-							<span class="product-description"> {{item.ACCT}} / {{item.PWD}}</span>
-							
+							<span class="product-description">{{item.pageNm}} </span>
+							<span class="product-description">{{item.pageDesc}}</span>
 						</div>
 					</li>
 				</ul>

@@ -84,6 +84,14 @@ function createCodeMirror(el, config) {
         
         focus: function() {
             codemirror.focus();
+        }, 
+        
+        lineCount: function() {
+            return codemirror.lineCount();
+        },
+        
+        autoFormatRange: function(from, to){
+            codemirror.autoFormatRange(from, to);
         }
     };
     

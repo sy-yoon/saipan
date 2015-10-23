@@ -1,17 +1,17 @@
 (function (global) {
-    var app = angular.module('app', ['ngRoute']);
+    var app = angular.module('meta', ['ngRoute']);
     app.config(function ($routeProvider, $controllerProvider, $httpProvider) {
 		// for dynamic controller 
 		app.registerCtrl = $controllerProvider.register;
-
 		// route cofiguation
 		$routeProvider.
-            when('/', { templateUrl: '/pages/main.html' }).
-            when('/pages/:name*', {
+            when('/', { templateUrl: '/pages/meta/page.html' }).
+            when('/:name*', {
 				templateUrl: function (a) {
+					var name = a.name == undefined ? a : a.name;
 					var parts = a.name.split('/');
 					var page = '', part;
-					for (var i in parts) {
+					for (i in parts) {
 						part = parts[i].split("=");
 						if (part[1] != undefined) continue;
 						if (parts[i] == '') continue;
@@ -19,10 +19,9 @@
 					}
 					var page = page.substr(0, page.length - 1);
 
-					return '/pages/' + page + '.html';
+					return '/pages/meta/' + page + '.html';
 				}
 			}).
-			when('/mpage/:pageId', {templateUrl: '/pages/meta/mpage.html'}).
             otherwise({ redirectTo: '/' });
             
 		// loading bar image
@@ -50,8 +49,8 @@
             }
         });
     });
-
-
+	
+	
 	app.directive('dynamic', function ($compile) {
 		return {
 			restrict: 'A',
@@ -65,7 +64,10 @@
 		};
 	});
 
-    app.run(function ($rootScope, $http, $document) {
+
+
+
+    app.run(function ($rootScope, $http, $document, $q) {
 		$rootScope.LB = LB;
 		$rootScope.MENU = MENU;
 		$rootScope.app_config = {
@@ -114,33 +116,6 @@
 
 		$rootScope.userInfoData = {};
 		
-		/* DBMS Object Config */
-		$rootScope.config = {
-			dbmsObject: {}
-		}
-
-		$http({
-			url: 'jsonData.action',
-			method: 'POST',
-			headers: {
-				'Content-Type': 'UTF-8'
-			},
-			params: {
-				collection: 'dbms_object',
-				method: 'find'
-			}
-		}).success(function (data) {
-			$rootScope.config.dbmsObject = data.rows;
-		});
-
-		$rootScope.getDatasource = function(pageMeta, id){
-			for(var i in pageMeta.datasources){
-				if(pageMeta.datasources[i].id == id){
-					return pageMeta.datasources[i];
-				}
-			}
-			return undefined;
-		}
 		
 		$rootScope.loadDs = function (parmas, fnCallback) {
 			$http({
@@ -151,7 +126,6 @@
 				fnCallback(data);
 			});
 		}
-		
 
 		$rootScope.goPrev = function (table) {
 			if (table.pageNum <= 1)
@@ -167,6 +141,39 @@
 			table.pageNum++;
 			table.load();
         }
+		
+		$rootScope.getDatasource = function(pageMeta, id){
+			for(var i in pageMeta.datasources){
+				if(pageMeta.datasources[i].id == id){
+					return pageMeta.datasources[i];
+				}
+			}
+			return undefined;
+		}
+		
+		$rootScope.loadPageMeta = function (pageId) {
+			var deferred = $q.defer();
+			$http({
+				url: 'jsonData.action',
+				method: 'POST',
+				params: {
+					collection: 'page_meta',
+					method: 'find',
+					selector: {
+						'pageId': pageId
+					}
+				}
+			}).success(function (data) {
+				if (data.rows) {
+					 deferred.resolve(data.rows[0]);
+				}
+			}).error(function(msg, code) {
+            	deferred.reject(msg);
+         	});
+			
+			
+			return deferred.promise;
+		}
 
 
 		$rootScope.logout = function () {
@@ -180,25 +187,6 @@
 				}
 			}).success(function (data) {
 				window.location = data.url;
-			});
-		}
-
-		$rootScope.pageMeta = {}
-		$rootScope.loadPageMeta = function (pageId) {
-			$http({
-				url: 'jsonData.action',
-				method: 'POST',
-				params: {
-					collection: 'page_meta',
-					method: 'find',
-					selector: {
-						PAGE_ID: pageId
-					}
-				}
-			}).success(function (data) {
-				if (data.rows) {
-					$rootScope.pageMeta = data.rows[0];
-				}
 			});
 		}
 	})

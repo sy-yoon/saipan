@@ -1,4 +1,4 @@
-app.controller('db_area', function($scope, $http) {
+app.registerCtrl('db_area', function($scope, $http) {
 	
 	$scope.loadDbmsList = function(){
 		$http({
@@ -30,6 +30,13 @@ app.controller('db_area', function($scope, $http) {
     		$scope.dbmsId = item.DBMS_ID;
     		$scope.dbmsNm = item.DBMS_NM;
     		$scope.dbmsDesc = item.DBMS_DESC;
+            $scope.dbmsType = item.DBMS_TYPE,
+            $scope.ip = item.IP;
+            $scope.port = item.PORT;
+            $scope.acct = item.ACCT;
+            $scope.pwd = item.PWD;
+            $scope.sid = item.SID;
+            $scope.schema = item.SCHEMA;
     		$("#dbmsDlg").modal('show');
     	});
     }
@@ -73,10 +80,13 @@ app.controller('db_area', function($scope, $http) {
             params: {
                 collection: 'dbms',
                 method : $scope.type,
+                selector : {
+                    DBMS_ID: dbmsId
+                },
                 data : {
                     DBMS_ID: dbmsId,
                     DBMS_NM: $scope.dbmsNm,
-                    DBMS_TYP: $scope.dbmsType,
+                    DBMS_TYPE: $scope.dbmsType,
                     IP: $scope.ip,
                     PORT: $scope.port,
                     ACCT: $scope.acct,
@@ -84,7 +94,6 @@ app.controller('db_area', function($scope, $http) {
                     SID: $scope.sid,
                     SCHEMA: $scope.schema.toUpperCase(),
                 }
-                
             }
         }).success(function(data) {
             if (data.success == true) {

@@ -1,4 +1,4 @@
-app.controller('std_area', function($scope, $http) {
+app.registerCtrl('std_area', function($scope, $http) {
 	
 	$scope.fnLoadBizArea = function(){
 		$http({

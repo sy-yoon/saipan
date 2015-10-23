@@ -53,8 +53,9 @@ app.controller('main', function($scope, $http) {
 					var schNode = $scope.addChild(parent, {
 						NAME : item.SCHEMA_NM,
 						ID : item.SCHEMA_ID,
-						HREF : '#pages/dbms/schema'
+						HREF : '#dbms/schema'
 					});
+					
 					
 					$.each( $scope.config.dbmsObject, function(i, dbmsObj){
 						if(dbmsObj.DBMS_TYPE == parent.data.data.DBMS_TYPE){
@@ -62,11 +63,31 @@ app.controller('main', function($scope, $http) {
 								$scope.addChild(schNode, {
 									NAME : dbmsObj.OBJECTS[obj],
 									ID : item.SCHEMA_ID,
-									HREF : '#pages/dbms/'+dbmsObj.OBJECTS[obj].toLowerCase()+'?schemaId='+item.SCHEMA_ID
+									HREF : '#dbms/'+dbmsObj.OBJECTS[obj].toLowerCase()+'?schemaId='+item.SCHEMA_ID
 								});	
 							}	
 						}
 					});
+				
+					
+					/*	
+					$scope.addChild(schNode, {
+						NAME : 'Indexes',
+						ID : item.SCHEMA_ID,
+						HREF : '#dbms/indexes?schemaId='+item.SCHEMA_ID
+					});
+					
+					$scope.addChild(schNode, {
+						NAME : 'Constraints',
+						ID : item.SCHEMA_ID,
+						HREF :  '#dbms/constraints?schemaId='+item.SCHEMA_ID
+					});
+					
+					$scope.addChild(schNode, {
+						NAME : 'Procedures',
+						ID : item.SCHEMA_ID,
+						HREF :  '#dbms/procedures?schemaId='+item.SCHEMA_ID
+					});*/
 				});
 			}
 		});
@@ -96,25 +117,25 @@ app.controller('main', function($scope, $http) {
 						$scope.addChild(items[item.STD_AREA_ID], {
 							NAME : 'Word',
 							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/word?stdAreaId='+item.STD_AREA_ID
+							HREF : '#std/word?stdAreaId='+item.STD_AREA_ID
 						});
 						
 						$scope.addChild(items[item.STD_AREA_ID], {
 							NAME : 'Domain',
 							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/domain?stdAreaId='+item.STD_AREA_ID
+							HREF : '#std/domain?stdAreaId='+item.STD_AREA_ID
 						});
 						
 						$scope.addChild(items[item.STD_AREA_ID], {
 							NAME : 'Term',
 							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/term?stdAreaId='+item.STD_AREA_ID
+							HREF : '#std/term?stdAreaId='+item.STD_AREA_ID
 						});
 						
 						$scope.addChild(items[item.STD_AREA_ID], {
 							NAME : 'Code',
 							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/code?stdAreaId='+item.STD_AREA_ID
+							HREF : '#std/code?stdAreaId='+item.STD_AREA_ID
 						});
 					}
 					else{
@@ -192,6 +213,6 @@ app.controller('main', function($scope, $http) {
 		});
 	}
 	
-	$scope.createMenu();
+	//$scope.createMenu();
 	
 });

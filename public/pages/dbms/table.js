@@ -1,4 +1,4 @@
-app.controller('dbms.table', function ($scope, $routeParams, $http) {
+app.registerCtrl('dbms.table', function ($scope, $routeParams, $http) {
     $scope.tableNm = $routeParams.tableNm;
     $scope.dbmsId = $routeParams.dbmsId;
     $scope.schemaId = $routeParams.schemaId;
@@ -11,7 +11,7 @@ app.controller('dbms.table', function ($scope, $routeParams, $http) {
             params: {
                 collection: 'tables',
                 method: 'find',
-                condition: {
+                selector: {
                     DBMS_ID: $scope.dbmsId,
                     SCHEMA_ID: $scope.schemaId,
                     TABLE_NAME: $scope.tableNm
@@ -31,7 +31,7 @@ app.controller('dbms.table', function ($scope, $routeParams, $http) {
             params: {
                 method: 'find',
                 collection: 'columns',
-                condition: {
+                selector: {
                     DBMS_ID: $scope.dbmsId,
                     SCHEMA_ID: $scope.schemaId,
                     TABLE_NAME: $scope.tableNm
@@ -51,7 +51,7 @@ app.controller('dbms.table', function ($scope, $routeParams, $http) {
             params: {
                 method: 'find',
                 collection: 'columns',
-                condition: {
+                selector: {
                     DBMS_ID: $scope.dbmsId,
                     SCHEMA_ID: $scope.schemaId,
                     TABLE_NAME: $scope.tableNm
@@ -71,7 +71,7 @@ app.controller('dbms.table', function ($scope, $routeParams, $http) {
             params: {
                 method: 'find',
                 collection: 'index_columns',
-                condition: {
+                selector: {
                     DBMS_ID: $scope.dbmsId,
                     SCHEMA_ID: $scope.schemaId,
                     TABLE_NAME: $scope.tableNm

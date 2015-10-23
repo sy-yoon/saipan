@@ -1,4 +1,4 @@
-app.controller('schema', function($scope, $http) {
+app.registerCtrl('schema', function($scope, $http) {
 	
 	$scope.loadSchemaList = function(){
 		$http({
