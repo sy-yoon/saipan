@@ -7,6 +7,7 @@
  
 function TextBox(){
 	Rectangle.call(this);
+	this.Type = 'TextBox'; 
 }
 
 

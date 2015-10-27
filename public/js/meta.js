@@ -1,27 +1,15 @@
 (function (global) {
-    var app = angular.module('meta', ['ngRoute']);
+    var app = angular.module('meta', ['ngRoute','treeGrid']);
     app.config(function ($routeProvider, $controllerProvider, $httpProvider) {
 		// for dynamic controller 
 		app.registerCtrl = $controllerProvider.register;
 		// route cofiguation
 		$routeProvider.
             when('/', { templateUrl: '/pages/meta/page.html' }).
-            when('/:name*', {
-				templateUrl: function (a) {
-					var name = a.name == undefined ? a : a.name;
-					var parts = a.name.split('/');
-					var page = '', part;
-					for (i in parts) {
-						part = parts[i].split("=");
-						if (part[1] != undefined) continue;
-						if (parts[i] == '') continue;
-						page += parts[i] + '/';
-					}
-					var page = page.substr(0, page.length - 1);
-
-					return '/pages/meta/' + page + '.html';
-				}
-			}).
+            when('/pagemgr', {templateUrl: 'pages/meta/pagemgr.html' }).
+            when('/menumgr', {templateUrl: 'pages/system/menumgr.html' }).
+            when('/svrfuncmgr', {templateUrl: 'pages/meta/svrfuncmgr.html' }).
+			when('/page/:pageId', {templateUrl: 'pages/meta/page.html' }).
             otherwise({ redirectTo: '/' });
             
 		// loading bar image

@@ -7,6 +7,7 @@
  
 function Button(){
 	Rectangle.call(this);
+	this.Type = 'Button'; 
 	 
 }
 

@@ -7,6 +7,7 @@
  
 function Label(){
 	Rectangle.call(this);
+	this.Type = 'Label'; 
 }
 
 

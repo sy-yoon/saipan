@@ -7,6 +7,7 @@
  
 function Tree(){
 	Rectangle.call(this);
+	this.Type = 'Tree'; 
 }
 
 Tree.prototype = new Rectangle();

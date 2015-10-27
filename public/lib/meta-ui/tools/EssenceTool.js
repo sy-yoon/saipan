@@ -70,6 +70,8 @@ EssenceTool.prototype.mouseup = function (canvas, event)
 		control = new Label();
 	else if	(canvas.controlType == 'Panel')
 		control = new Panel();
+	else if	(canvas.controlType == 'List')
+		control = new List();
 		
 	if(control != undefined){	
 		control.Rect.Left = control.Track_Rect.Left = this.Rect.Left;

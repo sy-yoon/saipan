@@ -7,6 +7,7 @@
  
 function Check(){
 	Rectangle.call(this);
+	this.Type = 'Check'; 
 }
 
 /* DataObject ��� */

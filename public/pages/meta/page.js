@@ -13,49 +13,42 @@ app.controller('page', function ($scope, $routeParams, $http) {
 	
 	$scope.propertyChanged = function(item){
 		$scope.control.updateSource(item.name, item.value);
-		
-		
-		if(item.name == 'datasource'){
+
+		if(item.name == 'datasource' && $scope.control.Type == 'Table'){
+			var ds = undefined;
 			for(var i in $scope.canvas.datasources){
 				if($scope.canvas.datasources[i].id == item.value){
-					$scope.makeTableHeader($scope.canvas.datasources[i], $scope.control);			
+					ds = $scope.canvas.datasources[i];	
+					break;		
 				}
+			}
+			
+			if(ds != undefined){
+				var header = [];
+				for(col in ds.columns){
+					header.push({
+						label : col.label,
+						field : col.label,
+						width : 100
+					});
+				}	
+				$scope.control.Properties['header'] = header;	
 			}
 		}
 		
 		$scope.canvas.refresh();
 	}
 	
-	$scope.makeTableHeader = function(ds, table){
-		$http({
-            url : 'jsonData.action',
-            method: 'POST',
-            headers: {
-            	'Content-Type': 'UTF-8'
-            },
-            params: {
-                collection: ds.collection,
-                method : 'find-one'
-            }
-        }).success(function(data) {
-            if (data.doc) {
-				var header = [];
-                for (var key in data.doc) {
-					header.push({
-						label : key,
-						field : key,
-						width : 100
-					})
-				}
-				
-				
-				table.Properties['header'] = header;
-					
-            }
-        });
+	$scope.getDsById = function(dsId){
+		var ds = undefined;
+		for(var i in $scope.canvas.datasources){
+			if($scope.canvas.datasources[i].id == dsId){
+				ds = $scope.canvas.datasources[i];	
+				break;		
+			}
+		}
+		return ds;
 	}
-	
-	
 	
 	$scope.propertyBtnClick = function(item){
 		$scope.property = item;
@@ -68,9 +61,30 @@ app.controller('page', function ($scope, $routeParams, $http) {
 			$(document).ready(function(){
 				$("#dsListDlg").modal('show');
 			});
+		}else if(item.name == 'template'){
+			$scope.template = {
+				title : item.value.title,
+				href : item.value.href,
+				subitems : item.value.subitems
+			}
+			
+			$(document).ready(function(){
+				$scope.datasource = $scope.getDsById($scope.control.Properties.datasource);
+				$("#templateDlg").modal('show');
+			});
 		}
 	}
 	
+	$scope.addSubItem = function(subitem){
+		$scope.template.subitems.push(subitem);
+	}
+	
+	$scope.saveTemplate = function(template){
+		$("#templateDlg").modal('hide');
+		$scope.property.value = template;
+	}
+	
+
 	$scope.addChild = function(parent, item){
 		if(parent == undefined)
 			parent =  $scope.rootNode;
@@ -106,7 +120,8 @@ app.controller('page', function ($scope, $routeParams, $http) {
 			$scope.datasource = {
 				id : '',
 				collection : '',
-				method : ''
+				method : '',
+				columns : []
 			};
 			
 			$("#dsDlg").modal('show');
@@ -121,8 +136,29 @@ app.controller('page', function ($scope, $routeParams, $http) {
 	
 	$scope.saveDs = function(){
 		$("#dsDlg").modal('hide');
-		$scope.canvas.addDatasource($scope.datasource);
+		
+		$http({
+            url : 'jsonData.action',
+            method: 'POST',
+            headers: {
+            	'Content-Type': 'UTF-8'
+            },
+            params: {
+                collection: $scope.datasource.collection,
+                method : 'find-one'
+            }
+        }).success(function(data) {
+            if (data.doc) {
+                for (var key in data.doc) {
+					$scope.datasource.columns.push({
+						label : key
+					})
+				}
+				$scope.canvas.addDatasource($scope.datasource);		
+            }
+        });
 	}
+	
 	
 	$scope.savePage = function(){
 		var pageMeta = $scope.canvas.getMetaData();
@@ -172,8 +208,21 @@ app.controller('page', function ($scope, $routeParams, $http) {
 			$scope.htmlEditor = createCodeMirror(document.getElementById('htmlEditor'), {readOnly:false, mode:'text/html'});
 		}
 		
-		
-		
+
+		if($routeParams.pageId != undefined){
+			var promise = $scope.loadPageMeta($routeParams.pageId);
+			promise.then(
+				function (resolve) {
+					if(resolve != undefined){
+						$scope.canvas.open(resolve);
+					}
+				},
+				function (reject) {
+					alert(reject)
+				});
+				
+			
+		}
 		
 	});
 });

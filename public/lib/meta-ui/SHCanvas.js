@@ -157,23 +157,22 @@ SHCanvas.prototype.drawFormLayer = function() {
 		ctx.lineTo(this.Canvas.width, i);
 	}
 
-	/*this.drawPageHeader(ctx);
+	ctx.stroke();
+	/*
+	this.drawPageHeader(ctx);
 	this.drawPageBody(ctx);
-	this.drawPageFooter(ctx);*/
+	this.drawPageFooter(ctx);
 
 	ctx.stroke();
+	*/
 }
 
-/*
-SHCanvas.prototype.drawPageHeader = function(ctx) {
+
+SHCanvas.prototype.drawPageHeader = function(ctx) {	
 	var PAGE_HEADER_HEIGHT = 50;
 	ctx.fillStyle = 'gray';
 	ctx.fillRect(0, 0, this.Canvas.width, PAGE_HEADER_HEIGHT);
-	
-	
-	ctx.setLineDash([5,2]);
 	ctx.rect(10,10,200,30);
-    //ctx.setLineDash([0]);
 }
 
 SHCanvas.prototype.drawPageBody = function(ctx) {
@@ -182,7 +181,7 @@ SHCanvas.prototype.drawPageBody = function(ctx) {
 
 SHCanvas.prototype.drawPageFooter = function(ctx) {
 	
-}*/
+}
 
 SHCanvas.prototype.select = function(control) {
 	control.IsSelected = true;
@@ -194,13 +193,13 @@ SHCanvas.prototype.genHtml = function() {
 	var script = 
 	"<script>\n"
 	+"app.registerCtrl('#{id}', function ($scope, $routeParams, $http) {\n"
-		+ this.genScript()
-	//+"	Lib.pageInitialized(function () {\n"
+	+ this.genScript()
+	+"	Lib.pageInitialized(function () {\n"
 	//+"		var promise = $scope.loadPageMeta('#{id}');\n"
 	//+"		promise.then(\n"
 	//+"			function(resolve){\n"
     //+"    			$scope.pageMeta = resolve;\n"
-	+"	 if($scope.pageMeta != undefined)		$scope.t.loadCnt($scope, {});\n"
+	+ this.genInitScript()
     //+"   		}, \n"
 	//+"			function(reject){\n"
     //+"    			alert(reject)   \n"   
@@ -210,20 +209,21 @@ SHCanvas.prototype.genHtml = function() {
 	+"\n"
 	+"\n"
 	+"\n"
-	//+"	});\n"
+	+"	});\n"
 	+"});\n"
 	+"</script>\n"
 	+"<div ng-controller='#{id}'>"
 	+"	<!-- Content Header (Page header) -->"
 	+"	<section class='content-header'>"
 	+"		<h1>"
+	+"		{{pageMeta.pageNm}}"
 	+"		</h1>"
 	+"		<ol class='breadcrumb'>"
 	+"		</ol>"
 	+"	</section>"
 	+"	<!-- Main content -->"
 	+"	<section class='content'>"
-	+"		<div style='position: absolute;'>"
+	+"		<div>"
 	+ this.genContentHtml() 		
 	+"		</div>"
 	+"	</section>"
@@ -273,6 +273,15 @@ SHCanvas.prototype.genScript = function() {
 		script += this.datasources[i];
 	}
 	*/
+	return script;
+}
+
+SHCanvas.prototype.genInitScript = function() {
+	var script = "";
+	for (var i = 0; i < this.VisualObjects.length; i++) {
+			script += this.VisualObjects[i].genInitScript();
+	}
+	
 	return script;
 }
 
@@ -339,10 +348,57 @@ SHCanvas.prototype.getMetaData = function() {
 	
 	var pageMeta = {
 		'pageId' : this.Properties['id'],
+		'pageNm' : this.Properties['name'],
+		'pageDesc' : this.Properties['desc'],
 		'datasources' : this.datasources,
 		'objects' : objects,
 		'html' : this.genHtml()
 	}
 	
 	return pageMeta;
+}
+
+SHCanvas.prototype.open = function(page) {
+	this.Properties['id'] = page.pageId;
+	this.Properties['name'] = page.pageNm;
+	this.Properties['desc'] = page.pageDesc;
+	if(page.datasources != undefined)
+		this.datasources = page.datasources;
+	
+	for (var objId in page.objects) {
+		var obj = page.objects[objId];
+		var control = undefined;
+		if (obj.type == 'Button')
+			control = new Button();
+		else if (obj.type == 'Check')
+			control = new Check();
+		else if (obj.type == 'Combo')
+			control = new Combo();
+		else if (obj.type == 'TextBox')
+			control = new TextBox();
+		else if (obj.type == 'Tree')
+			control = new Tree();
+		else if (obj.type == 'Box')
+			control = new Box();
+		else if (obj.type == 'Table')
+			control = new Table();
+		else if (obj.type == 'Label')
+			control = new Label();
+		else if (obj.type == 'Panel')
+			control = new Panel();
+		else if (obj.type == 'List')
+			control = new List();
+			
+		control.Properties = obj.properties;
+		control.Track_Rect.Left = obj.left;
+		control.Track_Rect.Top = obj.top;
+		control.Track_Rect.Right = control.Track_Rect.Left + obj.width;
+		control.Track_Rect.Bottom = control.Track_Rect.Top + obj.height;
+		control.trackEnd();
+		
+		
+		this.addVisualObject(undefined, control);
+	}
+	
+	
 }

@@ -25,6 +25,8 @@
 
   <script type="text/javascript" src="pages/meta/main.js"></script>
   <script type="text/javascript" src="pages/meta/page.js"></script>
+  <script type="text/javascript" src="pages/meta/pagemgr.js"></script>
+  <script type="text/javascript" src="pages/system/menumgr.js"></script>
 
 
   <script src="lib/AdminLTE-2.1.1/plugins/chartjs/Chart.min.js" type="text/javascript"></script>
@@ -58,7 +60,9 @@
   <script type="text/javascript" src="lib/meta-ui/controls/Box.js" charset="utf-8"></script>
   <script type="text/javascript" src="lib/meta-ui/controls/Table.js" charset="utf-8"></script>
   <script type="text/javascript" src="lib/meta-ui/controls/Label.js" charset="utf-8"></script>
-    <script type="text/javascript" src="lib/meta-ui/controls/Panel.js" charset="utf-8"></script>
+  <script type="text/javascript" src="lib/meta-ui/controls/Panel.js" charset="utf-8"></script>
+  <script type="text/javascript" src="lib/meta-ui/controls/List.js" charset="utf-8"></script>
+
 
   <script type="text/javascript" src="lib/spin/spin.min.js"></script>
 
@@ -104,8 +108,6 @@
   <link href="lib/CodeMirror-4.8/addon/hint/show-hint.css" rel="stylesheet">
   <link href="lib/angular/tree-grid.css" rel="stylesheet" type="text/css" />
   <link href="css/app.css" type="text/css" />
-
-
 </head>
 
 <body class="skin-white-light" id="mainBody" ng-controller="main">
@@ -190,12 +192,15 @@
             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
         </div>
-
-
         <!-- Sidebar Menu -->
-        <div id="tree" style="max-height:760px; overflow: auto ;" />
-
-
+        <ul class="sidebar-menu">
+          <li class="header">{{MENU.DEFINE.HEADER}}</li>
+          <!-- Optionally, you can add icons to the links -->
+          <li><a href="#pagemgr"><i class='fa fa-building-o'></i> <span>Page Management</span></a></li>
+          <li><a href="#menumgr"><i class='fa  fa-eye'></i> <span>Menu Management</span></a></li>
+          <li><a href="#svrfuncmgr"><i class='fa fa-navicon'></i> <span>Server Function Management</span></a></li>
+        </ul>
+        <!-- /.sidebar-menu -->
       </section>
       <!-- /.sidebar -->
     </aside>

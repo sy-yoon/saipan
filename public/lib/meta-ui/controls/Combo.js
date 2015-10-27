@@ -7,6 +7,7 @@
  
 function Combo(){
 	Rectangle.call(this);
+	this.Type = 'Combo'; 
 }
 
 /* DataObject ��� */

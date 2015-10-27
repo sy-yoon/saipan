@@ -180,3 +180,8 @@ Rectangle.prototype.genScript = function(){
 	var script = "";
 	return script;
 }
+
+Rectangle.prototype.genInitScript = function() {
+	var script = "";
+	return script;
+}

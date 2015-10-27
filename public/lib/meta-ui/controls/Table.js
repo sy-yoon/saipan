@@ -7,6 +7,7 @@
  
 function Table(){
 	Rectangle.call(this);
+	this.Type = 'Table'; 
 }
 
 Table.prototype = new Rectangle();
@@ -111,14 +112,30 @@ Table.prototype.initProperties = function(){
 	this.Properties['showHeader'] = true;
 	this.Properties['showFooter'] = true;
 	this.Properties['usePaging'] = true;
+	this.Properties['title'] = 'Noname';
 	this.Properties['class'] = 'table table-hover';
 }
 
 Table.prototype.genHtml = function(){
 	var script = 
 	"<div style='position:absolute; left:#{left}; top:#{top};'>"
-	+""
 	+"	<div class='box'>"
+	+"		<div class='box-header' ng-show='pageMeta.objects.#{id}.properties.showHeader'>"
+	+"			<i class='fa fa-dot-circle-o'/>"
+	+"			<h3 class='box-title'>{{pageMeta.objects.#{id}.properties.title}}</h3>"
+	+"			<div class='box-tools'>"
+	+"				<div class='input-group pull-right'>"
+	+"					<input type='text'  ng-model='tblNm'"
+	+"						class='form-control input-sm pull-right' style='width: 150px;'"
+	+"						placeholder='{{LB.COMMON.TABLE}}' />"
+	+"					<div class='input-group-btn'>"
+	+"						<button class='btn btn-sm btn-default' ng-click='fnLoadData();'>"
+	+"							<i class='fa fa-search'></i>"
+	+"						</button>"
+	+"					</div>"		
+	+"				</div>"
+	+"			</div>"
+	+"		</div>"
 	+"		<div class='box-body table-responsive no-padding' style='width:#{width};height:#{height};'>"
 	+"			<table class='#{class}'>"
 	+"				<thead>"
@@ -213,5 +230,11 @@ Table.prototype.genScript = function(){
 	
 	script = script.replace(/#{id}/g, this.Properties['id']);
 	script = script.replace(/#{datasource}/g,this.Properties['datasource']);
+	return script;
+}
+
+Table.prototype.genInitScript = function() {
+	var script = "$scope.#{id}.loadCnt($scope, {});";
+	script = script.replace(/#{id}/g, this.Properties['id']);
 	return script;
 }

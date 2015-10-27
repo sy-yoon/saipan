@@ -7,7 +7,7 @@
  
 function Box(){
 	Rectangle.call(this);
-	 
+	this.Type = 'Box'; 
 }
 
 Box.prototype = new Rectangle();

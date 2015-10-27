@@ -1,11 +1,11 @@
 app.controller('main', function($scope, $http) {
 	$scope.addChild = function(parent, item){
 		return parent.addChild({
-	        title: item.NAME,
+	        title: item.name,
 	        data : item,
 	        icon : false,
-	        key : item.ID,
-			href : item.HREF
+	        key : item.id,
+			href : item.href
 	    });
 	}
 	
@@ -22,10 +22,10 @@ app.controller('main', function($scope, $http) {
 				$.each(data.rows, function(i, item){
 					
 					var dbNode = $scope.addChild(parent, {
-						NAME : item.DBMS_NM,
-						ID : item.DBMS_ID,
-						DBMS_TYPE : item.DBMS_TYPE,
-						HREF : ''
+						name : item.DBMS_NM,
+						id : item.DBMS_ID,
+						dbmsType : item.dbmsType,
+						href : ''
 					});
 					
 					$scope.loadSchema(dbNode);
@@ -51,18 +51,18 @@ app.controller('main', function($scope, $http) {
 			if (data.rows) {
 				$.each(data.rows, function(i, item){
 					var schNode = $scope.addChild(parent, {
-						NAME : item.SCHEMA_NM,
-						ID : item.SCHEMA_ID,
-						HREF : '#pages/dbms/schema'
+						name : item.SCHEMA_NM,
+						id : item.SCHEMA_ID,
+						href : '#pages/dbms/schema'
 					});
 					
 					$.each( $scope.config.dbmsObject, function(i, dbmsObj){
-						if(dbmsObj.DBMS_TYPE == parent.data.data.DBMS_TYPE){
+						if(dbmsObj.dbmsType == parent.data.data.dbmsType){
 							for(obj in dbmsObj.OBJECTS){
 								$scope.addChild(schNode, {
-									NAME : dbmsObj.OBJECTS[obj],
-									ID : item.SCHEMA_ID,
-									HREF : '#pages/dbms/'+dbmsObj.OBJECTS[obj].toLowerCase()+'?schemaId='+item.SCHEMA_ID
+									name : dbmsObj.OBJECTS[obj],
+									id : item.SCHEMA_ID,
+									href : '#pages/dbms/'+dbmsObj.OBJECTS[obj].toLowerCase()+'?schemaId='+item.SCHEMA_ID
 								});	
 							}	
 						}
@@ -85,36 +85,36 @@ app.controller('main', function($scope, $http) {
 				var items = [];
 				$.each(data.rows, function(i, item){
 					var menuItem =  {
-						NAME : item.STD_AREA_NM,
-						ID : item.STD_AREA_ID,
-						HREF : ''
+						name : item.STD_AREA_NM,
+						id : item.STD_AREA_ID,
+						href : ''
 					}
 						
 					if(item.UP_ID == 'ROOT'){
 						items[item.STD_AREA_ID] = $scope.addChild(parent, menuItem);
 						
 						$scope.addChild(items[item.STD_AREA_ID], {
-							NAME : 'Word',
-							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/word?stdAreaId='+item.STD_AREA_ID
+							name : 'Word',
+							id : item.STD_AREA_ID,
+							href : '#pages/std/word?stdAreaId='+item.STD_AREA_ID
 						});
 						
 						$scope.addChild(items[item.STD_AREA_ID], {
-							NAME : 'Domain',
-							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/domain?stdAreaId='+item.STD_AREA_ID
+							name : 'Domain',
+							id : item.STD_AREA_ID,
+							href : '#pages/std/domain?stdAreaId='+item.STD_AREA_ID
 						});
 						
 						$scope.addChild(items[item.STD_AREA_ID], {
-							NAME : 'Term',
-							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/term?stdAreaId='+item.STD_AREA_ID
+							name : 'Term',
+							id : item.STD_AREA_ID,
+							href : '#pages/std/term?stdAreaId='+item.STD_AREA_ID
 						});
 						
 						$scope.addChild(items[item.STD_AREA_ID], {
-							NAME : 'Code',
-							ID : item.STD_AREA_ID,
-							HREF : '#pages/std/code?stdAreaId='+item.STD_AREA_ID
+							name : 'Code',
+							id : item.STD_AREA_ID,
+							href : '#pages/std/code?stdAreaId='+item.STD_AREA_ID
 						});
 					}
 					else{
@@ -143,15 +143,15 @@ app.controller('main', function($scope, $http) {
 			if (data.rows) {
 				var items = [];
 				$.each(data.rows, function(i, item){	
-					if(item.PARENT_ID == 'ROOT'){
-						items[item.ID] = $scope.addChild($scope.rootNode, item);
+					if(item.parentId == 'ROOT'){
+						items[item.id] = $scope.addChild($scope.rootNode, item);
 					}
 					else{
-						var parentNode = items[item.PARENT_ID];
+						var parentNode = items[item.parentId];
 						if(parentNode != undefined){
-							items[item.ID] = $scope.addChild(parentNode, item);
+							items[item.id] = $scope.addChild(parentNode, item);
 						}else{
-							items[item.ID] = $scope.addChild($scope.rootNode, item);
+							items[item.id] = $scope.addChild($scope.rootNode, item);
 						}
 					}
 				});

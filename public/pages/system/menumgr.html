@@ -1,0 +1,105 @@
+<div class="content-wrapper" ng-controller="system.menumgr" style="min-height: 800px;">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			Menu Management <small></small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">{{MENU.SYSTEM.LB003}}</li>
+		</ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+		<!-- Default box -->
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Menu</h3>
+				<div class="box-tools pull-right">
+					<button class="btn btn-sm bg-orange" title="{{LB.COMMON.EDIT}}" ng-click="flag = !flag;" ng-model="flag">
+						<i class="fa fa-edit"></i>
+					</button>
+					<button class="btn btn-sm bg-green"  title="{{LB.COMMON.ADD}}" ng-click="addMenu()">
+						<i class="fa fa-plus-square"></i>
+					</button>
+				</div>
+			</div>
+			<!-- /.box-header -->
+			<div class="box-body table-responsive">
+				<tree-grid tree-data="menuData" 
+							tree-control="menuTree" 
+							col-defs="col_defs" 
+							selections="selections" 
+							expand-on="expanding_property" 
+							icon-leaf="glyphicon glyphicon-book" 
+							on-select="menuselect(branch)"
+							expand-level="3"/>
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer text-center">
+			</div>
+			<!-- /.box-footer -->
+		</div>
+		<!-- /.box -->
+	</section>
+	<!-- /.content -->
+	
+	<div id="menuDlg" class="modal fade">
+		<form ng-submit="submit();">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Confirmation</h4>
+					</div>
+					<div class="modal-body">
+						<div class="box box-primary">
+							<div class="box-body">
+						
+								
+	
+								<div class="form-group">
+									<lable class="text-orange">Menu Name</label> 
+									<input
+										type="text" ng-model="menu.name"
+										class="form-control" placeholder={{LB.USER.LB002}} required />
+								</div>
+								
+								<div class="form-group">
+									<lable class="text-orange">Link</label> 
+									<input
+										type="text" ng-model="menu.href"
+										class="form-control"/>
+								</div>
+								
+								<div class="form-group">
+									<lable class="text-orange">Meta Page</label> 
+									<select
+										type="text" ng-model="menu.pageId" ng-options="item.pageId as item.pageNm for item in pages"
+										class="form-control"  />
+								</div>
+								
+								<div class="form-group">
+									<lable class="text-orange">Top Menu</label> 
+									<input
+										type="checkbox"  ng-model="menu.root"/>
+								</div>
+
+							</div>
+							<!-- /.box-body -->
+							<div class="box-footer">
+								<div class="btn-group pull-right">
+									<button type="submit"
+										class="btn btn-primary">{{LB.COMMON.SAVE}}</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.content-wrapper -->

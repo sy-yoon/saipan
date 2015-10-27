@@ -8,6 +8,7 @@
 function Panel(){
 	Rectangle.call(this);
 	this.children = []; 
+	this.Type = 'Panel'; 
 }
 
 Panel.prototype = new Rectangle();
